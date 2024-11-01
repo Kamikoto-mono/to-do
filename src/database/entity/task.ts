@@ -8,6 +8,6 @@ export default class Task{
   @Column({ nullable: false })
   description: string;
 
-  @Column({nullable: false})
+  @Column({ default: false })
   status: boolean;
 }
