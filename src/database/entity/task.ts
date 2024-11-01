@@ -7,4 +7,7 @@ export default class Task{
 
   @Column({ nullable: false })
   description: string;
+
+  @Column({nullable: false})
+  status: boolean;
 }
