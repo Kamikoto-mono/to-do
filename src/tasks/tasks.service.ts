@@ -15,8 +15,9 @@ export class TasksService {
     return this.tasksRepository.find();
   }
 
-  create(createTask) {
-    return this.tasksRepository.save(createTask);
+  async create(createTask) {
+    await this.tasksRepository.save(createTask);
+    return 'Task created'
   }
 
   async update(id: number, updateTask) {
@@ -37,9 +38,11 @@ export class TasksService {
   }
 
   async removeTasksCompleted() {
-    await this.tasksRepository.delete({
+    const res = await this.tasksRepository.delete({
       status: true
     })
-    return 'Complete tasks delete';
+    console.log(res);
+    
+    return `${res.affected} completed tasks were deleted`;
   }
 }
