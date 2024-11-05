@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { configConnectionPostgres } from './database/connectionDatabase';
 import { TasksModule } from './tasks/tasks.module';
@@ -12,7 +10,7 @@ import { TasksModule } from './tasks/tasks.module';
     TypeOrmModule.forRoot(configConnectionPostgres),
     TasksModule,
   ],
-  controllers: [AppController],
-  providers: [AppService],
+  controllers: [],
+  providers: [],
 })
 export class AppModule {}

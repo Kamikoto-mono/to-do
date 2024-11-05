@@ -28,7 +28,7 @@ export class TasksService {
 
   async updateStatusAll(targetStatus) {
     await this.tasksRepository.update({ status: !targetStatus }, { status: targetStatus });
-    return `This action updates a status for all tasks`
+    return `All tasks ${targetStatus ? 'completed' : 'unfulfilled'}`
   }
 
   async remove(id: number) {
