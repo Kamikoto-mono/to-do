@@ -1,9 +1,8 @@
 import { Injectable } from '@nestjs/common';
-import { CreateTaskDto } from './dto/create-task.dto';
-import { UpdateTaskDto } from './dto/update-task.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import Task from 'src/database/entity/task';
+
 
 @Injectable()
 export class TasksService {
@@ -12,27 +11,35 @@ export class TasksService {
     private tasksRepository: Repository<Task>,
   ) {}
 
-  findAll(): Promise<Task[]> {
+  getAll(): Promise<Task[]> {
     return this.tasksRepository.find();
   }
 
-  create(createTaskDto: CreateTaskDto) {
-    return 'This action adds a new task';
+  create(createTask) {
+    return this.tasksRepository.save(createTask);
   }
 
-  update(id: number, updateTaskDto: UpdateTaskDto) {
-    return `This action updates a #${id} task`;
+  async update(id: number, updateTask) {
+    await this.tasksRepository.update(id, updateTask);
+    return this.tasksRepository.findOne({
+      where: { id: id}
+    });
   }
 
-  updateStatusAll() {
+  async updateStatusAll(targetStatus) {
+    await this.tasksRepository.update({ status: !targetStatus }, { status: targetStatus });
     return `This action updates a status for all tasks`
   }
 
-  async remove(id: number): Promise<void> {
+  async remove(id: number) {
     await this.tasksRepository.delete(id);
+    return 'Task delete';
   }
 
-  asremoveTaksCompleted() {
-    return `this avtion delete all completed tasks`
+  async removeTasksCompleted() {
+    await this.tasksRepository.delete({
+      status: true
+    })
+    return 'Complete tasks delete';
   }
 }
